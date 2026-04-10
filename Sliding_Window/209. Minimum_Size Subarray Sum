@@ -1,0 +1,61 @@
+Problem LinK:https://leetcode.com/problems/minimum-size-subarray-sum/description/
+Idea:
+Use two pointers (l, r)
+Expand window → increase sum
+Shrink window → minimize length when condition satisfied
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int minlen=INT_MAX;
+        int sum=0;
+        int l=0;
+        for(int r=0; r<nums.size(); r++){
+            sum+=nums[r];
+            while(l<=r && sum>=target){
+                int len=r-l+1;
+                minlen=min(minlen,len);
+                sum-=nums[l];
+                l++;
+            }
+
+        }
+       return minlen==INT_MAX?0:minlen;
+
+        
+    }
+};
+//Java code
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int minLen = Integer.MAX_VALUE;
+        int sum = 0;
+        int l = 0;
+
+        for (int r = 0; r < nums.length; r++) {
+            sum += nums[r];
+
+            while (l <= r && sum >= target) {
+                int len = r - l + 1;
+                minLen = Math.min(minLen, len);
+                sum -= nums[l];
+                l++;
+            }
+        }
+
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+    }
+}
+Time Complexity: O(n)
+Each element is visited at most twice (once by r, once by l)
+Space Complexity: O(1)
+No extra space used (only variables)
+
+
+
+
+
+
+
+
+
+
