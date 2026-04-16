@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int solve(int i,int j,int m,int n,string &word1,string &word2,vector<vector<int>>&dp){
+        if(i>=n){
+            return m-j;
+        }
+        if(j>=m){
+            return n-i;
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        if(word1[i]==word2[j]){
+            return solve(i+1,j+1,m,n,word1,word2,dp);
+        }
+        // delete 
+        int op1=1+solve(i+1,j,m,n,word1,word2,dp);
+        // insert
+        int op2=1+solve(i,j+1,m,n,word1,word2,dp);
+        // replace
+        int op3=1+solve(i+1,j+1,m,n,word1,word2,dp);
+        return dp[i][j]=min({op1,op2,op3});
+
+
+}
+    int minDistance(string word1, string word2) {
+        int n=word1.size();
+        int m=word2.size();
+        vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+        return solve(0,0,m,n,word1,word2,dp);
+    
+    }
+};
