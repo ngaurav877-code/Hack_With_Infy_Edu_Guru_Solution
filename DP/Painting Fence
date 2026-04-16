@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    int countWays(int n, int k) {
+       if(n==1){
+           return k;
+       }
+       if(n==2){
+           return k*k;
+       }
+       // n=3
+       int same=k;
+       int diff=k*(k-1);
+       int tot=same+diff;
+       for(int i=3; i<=n; i++){
+           same=diff;
+           diff=tot*(k-1);
+           tot=same+diff;
+       }
+       return tot;
+    }
+};
