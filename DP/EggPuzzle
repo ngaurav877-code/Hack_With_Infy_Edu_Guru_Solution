@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+class Solution {
+  public:
+
+    int eggDrop(int n, int k) {
+       if(k==0 or k==1){
+           return k;
+           
+       }
+       if(n==1){
+           return k;
+       }
+        vector<vector<int>>dp(n+1,vector<int>(k+1,0));
+        for(int i=0; i<=n; i++){
+            for(int j=0; j<=k; j++){
+                if(i==0){
+                    dp[i][j]=0;
+                }
+                else if(i==1){
+                    dp[i][j]=j;
+                }
+                else if(j==1){
+                    dp[i][j]=1;
+                }
+                else{
+                    int st=1,en=j;
+                    int res=INT_MAX;
+                    while(st<=en){
+                        int mid=st+(en-st)/2;
+                        int case1=1+dp[i-1][mid-1];// breakegg
+                        int case2=1+dp[i][j-mid];// not break
+                        res=min(res,max(case1,case2));
+                        if(case1<case2){
+                            st=mid+1;// case1 >case2 means mid floor
+                        }
+                        else{
+                           en=mid-1;
+                        }
+                    }
+                   // for(int )
+                    dp[i][j]=res;
+                }
+            }
+        }
+        return dp[n][k];
+         
+ 
+        
+    }
+};
