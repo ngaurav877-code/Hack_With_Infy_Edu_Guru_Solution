@@ -1,0 +1,65 @@
+class Solution {
+public:
+int solve(int prev,int curr,vector<int>&arr, vector<vector<int>>&dp){
+    if(curr>=arr.size()){
+        return 0;
+    }
+    if(dp[curr][prev+1]!=-1){
+        return dp[curr][prev+1];
+    }
+    int ntake=solve(prev,curr+1,arr,dp);
+    int take=0;
+    if(prev==-1 or arr[curr]>arr[prev]){
+        take=1+solve(curr,curr+1,arr,dp);
+    }
+    return dp[curr][prev+1]=max(take,ntake);
+}
+int LB(vector<int>&v,int t){
+    int res=0;
+    int st=0,en=v.size()-1;
+    while(st<=en){
+        int mid=st+(en-st)/2;
+        if(v[mid]>=t){
+            res=mid;
+            en=mid-1;
+        }
+        else{
+            st=mid+1;
+        }
+        
+    }
+    return res;
+}
+int tab(vector<int>&arr)
+{
+ vector<int>dp(n,1);
+    for(int j=1; j<n; j++){
+        for(int i=0; i<j; i++){
+            if(arr[i]<arr[j])
+            dp[j]=max(dp[j],1+dp[i]);
+        }
+    }
+    return *max_element(dp.begin(),dp.end());
+}
+int lis(vector<int>& arr) {
+
+
+
+    int n=arr.size();
+    vector<int>lis;
+    for(int x:arr){
+        if(lis.size()==0 or lis.back()<x){
+            lis.push_back(x);
+        }
+        else{
+            int i=LB(lis,x);
+            lis[i]=x;
+        }
+        
+    }
+    return lis.size();
+    
+    }
+    
+};
+// arr = [4, 10, 4, 3, 8, 9]
