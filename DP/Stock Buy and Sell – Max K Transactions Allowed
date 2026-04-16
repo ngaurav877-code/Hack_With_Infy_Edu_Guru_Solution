@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    int dp[1001][201][2];
+    int solve(int idx,int buy,int k,vector<int>&prices){
+        if(idx>=prices.size() or k==0){
+            return 0;
+        }
+        if(dp[idx][k][buy]!=-1){
+            return dp[idx][k][buy];
+        }
+        if(buy==0){
+            // buy the stock
+            int op1=-prices[idx]+solve(idx+1,!buy,k,prices);
+            int op2=solve(idx+1,buy,k,prices);
+            return dp[idx][k][buy]=max(op1,op2);
+        }
+        else{
+            // sell the stock 
+            
+            int op1=prices[idx]+solve(idx+1,!buy,k-1,prices);
+            int op2=solve(idx+1,buy,k,prices);
+            return dp[idx][k][buy]=max(op1,op2);
+            
+        }
+    }
+    int maxProfit(vector<int>& prices, int k) {
+        memset(dp,-1,sizeof dp);
+        return solve(0,0,k,prices);
+        
+    }
+};
