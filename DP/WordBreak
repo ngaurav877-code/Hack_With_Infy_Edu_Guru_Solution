@@ -1,0 +1,29 @@
+class Solution {
+private:
+    bool solve(string &s, int start, unordered_set<string> &st, vector<int> &dp) {
+        if(start == s.length()) return true;
+
+        if(dp[start] != -1) return dp[start];
+
+        string temp = "";
+        for(int end = start; end < s.length(); end++) {
+            temp += s[end]; 
+
+            if(st.count(temp)) {
+                if(solve(s, end + 1, st, dp)) {
+                    return dp[start] = true;
+                }
+            }
+        }
+
+        return dp[start] = false;
+    }
+
+public:
+    bool wordBreak(string &s, vector<string> &dictionary) {
+        unordered_set<string> st(dictionary.begin(), dictionary.end());
+        vector<int> dp(s.length(), -1);
+
+        return solve(s, 0, st, dp);
+    }
+};
