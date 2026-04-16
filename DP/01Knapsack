@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    int solve(int i,int W,vector<int> &val, vector<int> &wt,vector<vector<int>>&dp){
+        if(i>=val.size() or W<=0)
+            return 0;
+        if(dp[W][i]!=-1)
+            return dp[W][i];
+        int ntake=solve(i+1,W,val,wt,dp);// non take ith item
+        int take=0;//take ith item
+        if(W>=wt[i])
+            take=val[i]+solve(i+1,W-wt[i],val,wt,dp);
+        return dp[W][i]=max(take,ntake);
+    }
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        int n=val.size();
+        vector<vector<int>>dp(W+1,vector<int>(n+1,-1));
+        return solve(0,W,val,wt,dp);
+        
+        
+    }
+};
