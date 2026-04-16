@@ -1,0 +1,46 @@
+class Solution {
+  public:
+    int solve(int i, int j, int n,int m,vector<vector<int>>& mat,vector<vector<int>>&dp){
+        if(i<0 or j<0 or i>=n or j>=m){
+            return 0;
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        int op1=mat[i][j]+solve(i-1,j+1,n,m,mat,dp);
+        int op2=mat[i][j]+solve(i,j+1,n,m,mat,dp);
+        int op3=mat[i][j]+solve(i+1,j+1,n,m,mat,dp);
+        return dp[i][j]=max({op1,op2,op3});
+    }
+    int maxGold(vector<vector<int>>& mat) {
+        int n=mat.size();
+        int m=mat[0].size();
+        vector<int>next(n);
+        for(int i=0; i<n; i++){
+            next[i]=mat[i][m-1];
+        }
+       
+        for(int j=m-2; j>=0; j--){
+             vector<int>curr(n);
+            for(int i=0; i<n; i++){
+               
+                int op1=next[i];
+                int op2=0;
+                if(i-1>=0)
+                op2=next[i-1];
+                int op3=0;
+                if(i+1<n)
+                op3=next[i+1];
+                curr[i]=mat[i][j]+max({op1,op2,op3});
+            }
+            next=curr;
+        }
+        int res=0;
+        for(int x:next){
+            res=max(x,res);
+        }
+       
+        return res;
+        
+    }
+};
